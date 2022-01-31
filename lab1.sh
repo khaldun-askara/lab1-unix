@@ -29,3 +29,17 @@ sed '/ская/a^^^' streets.txt
 echo ""
 echo "4 абв в бва"
 sed 'y/абвгдеёжзийклмнопрстуфхцчшщъыьэюя/бвгдеёжзийклмнопрстуфхцчшщъыьэюяа/' streets.txt
+echo ""
+echo "awk"
+echo "1 все даты 100метров:"
+ls awk | awk -F _ '/100метров/{print $2}'
+echo ""
+echo "2 все соревнования 10.10.2006:"
+ls awk | awk -F _ '/10.10.2006/{print $1}'
+echo ""
+echo "3 среднее время по каждому соревнованию:"
+cd awk
+awk '{sum[FILENAME]+=$2; count[FILENAME]++;}END{for(file in sum){split(file,f,"_");printf "Среднее время по бегу %s %s – %.2f миллисекунд\n", f[1], f[2],  sum[file]/count[file]}}' *
+echo ""
+echo "4 победитель в каждом соревновании:"
+awk '{if(max[FILENAME]<$2){max[FILENAME]=$2;winner[FILENAME]=$1;}}END{for(file in winner)print file, winner[file]}' *
