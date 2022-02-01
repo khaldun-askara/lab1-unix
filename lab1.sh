@@ -42,4 +42,4 @@ cd awk
 awk '{sum[FILENAME]+=$2; count[FILENAME]++;}END{for(file in sum){split(file,f,"_");printf "Среднее время по бегу %s %s – %.2f миллисекунд\n", f[1], f[2],  sum[file]/count[file]}}' *
 echo ""
 echo "4 победитель в каждом соревновании:"
-awk '{if(max[FILENAME]<$2){max[FILENAME]=$2;winner[FILENAME]=$1;}}END{for(file in winner)print file, winner[file]}' *
+awk 'NR=FNR{if(NR==1){min[FILENAME]=$2;winner[FILENAME]=$1;}}{if(min[FILENAME]>$2){min[FILENAME]=$2;winner[FILENAME]=$1;}}END{for(file in winner)print file, winner[file]}' *
